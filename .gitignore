@@ -1,0 +1,10 @@
+/.gradle
+/.idea
+/out
+/build
+*.iml
+*.ipr
+*.iws
+.DS_STORE
+Constants.kt
+*.csv
