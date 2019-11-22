@@ -1,18 +1,16 @@
 package ryan.yu
 
-import io.ktor.application.*
-import io.ktor.response.*
-import io.ktor.request.*
-import io.ktor.routing.*
-import io.ktor.http.*
-import io.ktor.content.*
-import io.ktor.http.content.*
+import io.ktor.application.Application
+import io.ktor.application.call
+import io.ktor.http.ContentType
+import io.ktor.response.respondFile
+import io.ktor.response.respondText
+import io.ktor.routing.get
+import io.ktor.routing.routing
 import kotlinx.coroutines.delay
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
-import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.concurrent.timerTask
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -40,33 +38,25 @@ fun Application.module(testing: Boolean = false) {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
         }
 
-        get("/groupformat") {
-            call.respondText(Parser().parse(), contentType = ContentType.Text.Plain)
-        }
-
-        get("/refresh") {
-            println("Performing ${takeCommand}")
-            Runtime.getRuntime().exec(takeCommand)
-            call.respondText("Ok", contentType = ContentType.Text.Plain)
-
-        }
-
         get("/reset") {
-            println("Performing ${resetCommand}")
+            println("Performing $resetCommand")
             Runtime.getRuntime().exec(resetCommand)
             call.respondText("Ok", contentType = ContentType.Text.Plain)
         }
 
-        get("/refreshgroupformat") {
+        get("/latest_groupformat") {
             Runtime.getRuntime().exec(takeCommand)
             delay(1000)
             call.respondText(Parser().parse(), contentType = ContentType.Text.Plain)
         }
 
-        // Static feature. Try to access `/static/ktor_logo.svg`
-        static("/static") {
-            resources("static")
+        get("/latest_groupformat_csv") {
+            Runtime.getRuntime().exec(takeCommand)
+            delay(1000)
+            Parser().parse()
+            call.respondFile(File("./test.csv"))
         }
+
     }
 }
 

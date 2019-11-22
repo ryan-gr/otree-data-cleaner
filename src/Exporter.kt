@@ -17,7 +17,10 @@ class Exporter {
     fun extend(exporter: Exporter) { exporter.lines.forEach { lines.add(it) } }
 
     fun print() = lines.forEach { println(it.joinToString(",")) }
-    fun getAsString(file: File) = lines.joinToString("\n") { it.joinToString(",") { s -> "\"${s}\"" } }
-    fun export(file: File) = file.writeText(lines.joinToString("\n") { it.joinToString(",") { s -> "\"${s}\"" } })
+    fun getAsString(file: File): String {
+        val s = lines.joinToString("\n") { it.joinToString(",") { s -> "\"${s}\"" } }
+        file.writeText(s)
+        return s
+    }
 
 }

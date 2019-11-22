@@ -6,7 +6,7 @@ fun main() {
     Parser().parse()
 }
 
-class Parser() {
+class Parser {
 
     // Parse each line of the raw chat data.
     private fun parseChat()
