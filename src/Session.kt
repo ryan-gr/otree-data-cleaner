@@ -97,12 +97,14 @@ class Session(private val sessionId: String) {
 
             // Add chat data.
             with (exporter) {
-
-                (0..19).forEach { i ->
+                add("")
+                (0..9).forEach { i ->
                     add(chatRounds.filter { it.round == i }.joinToString("\n") { "${it.participantId}: ${it.body}" })
                 }
-                insert("", index = 0)
-                insert("", index = 12)
+                add("")
+                (10..19).forEach { i ->
+                    add(chatRounds.filter { it.round == i }.joinToString("\n") { "${it.participantId}: ${it.body}" })
+                }
                 endLine()
             }
 
